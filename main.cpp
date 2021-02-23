@@ -122,18 +122,19 @@ long long buildMatch(Users &usersRemaining, Bikes &bikesRemaining, MatchedBikes 
         for (const auto &bike : bikesRemaining) {
         }
     }
+    return 0;
 }
 
 MatchedBikes closestBikes(const World &world)
 {
-    Users users;
-    copy(users.begin(), users.end(), world.users.begin());
-    Bikes bikes;
-    copy(bikes.begin(), bikes.end(), world.bikes.begin());
+    //    Users users;
+    //    copy(world.users.begin(), users.end(), users.begin());
+    //    Bikes bikes;
+    //    copy(world.bikes.begin(), world.bikes.end(), bikes.begin());
 
     MatchedBikes m;
 
-    buildMatch(users, bikes, m);
+    //    buildMatch(users, bikes, m);
 
     return m;
 }
