@@ -10,9 +10,10 @@ using namespace std;
 
 struct Position;
 
-typedef vector<Position> Users;
-typedef vector<Position> Bikes;
-typedef list<pair<Position, Position>> MatchedBikes;
+typedef list<Position> Users;
+typedef list<Position> Bikes;
+
+typedef list<pair<Position, Position>> MatchedBikes; // Users to Bikes
 
 struct Position
 {
@@ -37,7 +38,11 @@ struct World
 {
     World(int totalUsers, int totalBikes) : users(totalUsers), bikes(totalBikes) {}
 
-    World(const Users &_users, const Bikes &_bikes) : users(_users), bikes(_bikes) {}
+    World(const Users &_users, const Bikes &_bikes)
+    {
+        copy(_users.begin(), _users.end(), users.begin());
+        copy(_bikes.begin(), _bikes.end(), bikes.begin());
+    }
 
     vector<Position> users;
     vector<Position> bikes;
@@ -80,6 +85,17 @@ long long manhattanDistance(const Position &p1, const Position &p2)
     return abs(p1.x - p2.x) + abs(p1.y - p2.y);
 }
 
+long long calculateDistance(const MatchedBikes &matches)
+{
+    long long totalDistance = 0;
+
+    for (const auto &m : matches) {
+        totalDistance += manhattanDistance(m.first, m.second);
+    }
+
+    return totalDistance;
+}
+
 MatchedBikes bikesForAll(const World &world)
 {
     auto bikeIter = world.bikes.begin();
@@ -94,18 +110,39 @@ MatchedBikes bikesForAll(const World &world)
     return matchedBikes;
 }
 
+long long buildMatch(Users &usersRemaining, Bikes &bikesRemaining, MatchedBikes &match)
+{
+    // TBC
+
+    if (usersRemaining.empty()) {
+        return calculateDistance(match);
+    }
+
+    for (const auto &user : usersRemaining) {
+        for (const auto &bike : bikesRemaining) {
+        }
+    }
+}
+
 MatchedBikes closestBikes(const World &world)
 {
-    MatchedBikes matchedBikes;
+    Users users;
+    copy(users.begin(), users.end(), world.users.begin());
+    Bikes bikes;
+    copy(bikes.begin(), bikes.end(), world.bikes.begin());
 
-    return matchedBikes;
+    MatchedBikes m;
+
+    buildMatch(users, bikes, m);
+
+    return m;
 }
 
 void printDistances(const MatchedBikes &bikes)
 {
     cout << "[ ";
     for (const auto &b : bikes) {
-        cout << b.first << " -> " << b.second << " : " << manhattanDistance(b.first, b.second)
+        cout << b.second << " -> " << b.first << " : " << manhattanDistance(b.first, b.second)
              << ", ";
     }
     cout << "]" << endl;
@@ -131,6 +168,7 @@ int main()
     cout << "Small world: " << smallWorld;
 
     printDistances(bikesForAll(smallWorld));
+    printDistances(closestBikes(smallWorld));
 
     return 0;
 }
