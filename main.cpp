@@ -8,6 +8,12 @@
 
 using namespace std;
 
+struct Position;
+
+typedef vector<Position> Users;
+typedef vector<Position> Bikes;
+typedef list<pair<Position, Position>> MatchedBikes;
+
 struct Position
 {
     long x;
@@ -30,6 +36,8 @@ struct Position
 struct World
 {
     World(int totalUsers, int totalBikes) : users(totalUsers), bikes(totalBikes) {}
+
+    World(const Users &_users, const Bikes &_bikes) : users(_users), bikes(_bikes) {}
 
     vector<Position> users;
     vector<Position> bikes;
@@ -66,8 +74,6 @@ struct World
     }
 };
 
-typedef list<pair<Position, Position>> MatchedBikes;
-
 // https://xlinux.nist.gov/dads/HTML/manhattanDistance.html
 long long manhattanDistance(const Position &p1, const Position &p2)
 {
@@ -100,14 +106,23 @@ void printDistances(const MatchedBikes &bikes)
 
 int main()
 {
+    const auto sampleWorld = World({{0, 0}, {2, 1}}, {{1, 2}, {3, 3}});
+
+    cout << "Sample world: " << sampleWorld;
+
+    auto matchedBikes = findInitialBikes(sampleWorld);
+
+    printDistances(matchedBikes);
+
     //srand(time(nullptr));
+
     srand(0);
 
     const auto smallWorld = World::generate(2, 3, 10, 10);
 
-    cout << smallWorld;
+    cout << "Small world: " << smallWorld;
 
-    auto matchedBikes = findInitialBikes(smallWorld);
+    matchedBikes = findInitialBikes(smallWorld);
 
     printDistances(matchedBikes);
 
