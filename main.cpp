@@ -80,7 +80,7 @@ long long manhattanDistance(const Position &p1, const Position &p2)
     return abs(p1.x - p2.x) + abs(p1.y - p2.y);
 }
 
-MatchedBikes findInitialBikes(const World &world)
+MatchedBikes bikesForAll(const World &world)
 {
     auto bikeIter = world.bikes.begin();
 
@@ -90,6 +90,13 @@ MatchedBikes findInitialBikes(const World &world)
         matchedBikes.push_back(make_pair(user, *bikeIter));
         bikeIter++;
     }
+
+    return matchedBikes;
+}
+
+MatchedBikes closestBikes(const World &world)
+{
+    MatchedBikes matchedBikes;
 
     return matchedBikes;
 }
@@ -110,11 +117,12 @@ int main()
 
     cout << "Sample world: " << sampleWorld;
 
-    auto matchedBikes = findInitialBikes(sampleWorld);
-
-    printDistances(matchedBikes);
+    printDistances(bikesForAll(sampleWorld));
+    printDistances(closestBikes(sampleWorld));
 
     //srand(time(nullptr));
+
+    cout << endl;
 
     srand(0);
 
@@ -122,9 +130,7 @@ int main()
 
     cout << "Small world: " << smallWorld;
 
-    matchedBikes = findInitialBikes(smallWorld);
-
-    printDistances(matchedBikes);
+    printDistances(bikesForAll(smallWorld));
 
     return 0;
 }
