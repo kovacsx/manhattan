@@ -1,15 +1,19 @@
 # manhattan
 Manhatten distance calculation (done as part of a work interview)
 
-## Build using CMake (from within the cloned directory):
+Should support any platform that supports C++14 and has CMake.
 
-cmake ./ -B ../build-manhattan
+## Configure using CMake (assuming it's cloned in 'manhattan'):
 
-cd ../build-manhattan
+cmake manhattan -B build-manhattan
+
+## Build using make:
+
+cd build-manhattan
 
 make
 
-## Run:
+## Run (from build-manhattan folder):
 
 ./manhattan
 
